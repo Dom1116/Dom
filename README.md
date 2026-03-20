@@ -1,56 +1,43 @@
-# ReceiptWise Static Site
+# Retail Arbitrage Deal Finder (Personal Use)
 
-A modern, single-page landing site for ReceiptWise with privacy and terms placeholders.
+This project is a **personal-use deal finder** to help you scan local deals from Home Depot, Costco, Walmart, and Target and quickly rank items for resale potential.
 
-## Project Structure
+No SaaS billing, no pricing plans, no multi-tenant complexity — just a practical stack you can run and extend.
 
-```
-.
-├── assets/
-│   └── logo.svg
-├── index.html
-├── privacy.html
-├── terms.html
-└── README.md
-```
+## What’s implemented now
+- FastAPI backend with a real `/api/v1/deals/all-store` endpoint.
+- Modular retailer adapter interface and a personal sample adapter set for all 4 retailers.
+- Next.js frontend that opens directly to **All Store Deals**.
+- ZIP/radius/store selector with local favorite-store saving.
+- Filtering by retailer + sorting by discount/profit/ROI/newest/stock.
+- Configurable opportunity scoring engine.
 
-## Preview Locally
+## Architecture + schema
+- Architecture plan: `docs/architecture.md`
+- SQL schema: `docs/database_schema.sql`
 
-### Option 1: Open directly
-
-Open `index.html` directly in your browser.
-
-### Option 2: Python simple server
-
+## Run backend
 ```bash
-python3 -m http.server 5173
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
 ```
 
-Then open:
-
-```
-http://localhost:5173
-```
-
-### Option 3: Node static server (optional)
-
+## Run frontend
 ```bash
-npx serve .
+cd frontend
+npm install
+npm run dev
 ```
 
-Then open the URL printed in the terminal.
+Then open `http://localhost:3000`.
 
-## Deploy
+## Environment config
+Copy values from `.env.example`.
 
-### Netlify Drop
-
-1. Go to [https://app.netlify.com/drop](https://app.netlify.com/drop).
-2. Drag and drop the entire project folder.
-3. Netlify will provide a live URL instantly.
-
-### GitHub Pages
-
-1. Create a GitHub repository and push this project.
-2. In GitHub, go to **Settings → Pages**.
-3. Under **Source**, choose your default branch and **/root**.
-4. Save and wait for the deployed URL to appear.
+## Notes
+- Current adapters are personal starter data so you can iterate quickly.
+- Replace sample adapters with official APIs (or compliant browser automation) when you are ready.
+- Keep usage lawful and respect rate limits/access rules.
