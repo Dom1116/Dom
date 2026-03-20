@@ -1,52 +1,22 @@
-# Retail Arbitrage Deal Finder
+# Retail Arbitrage Deal Finder (Personal Use)
 
-A full-stack starter for lawful retail arbitrage research across Home Depot, Costco, Walmart, and Target.
+This project is a **personal-use deal finder** to help you scan local deals from Home Depot, Costco, Walmart, and Target and quickly rank items for resale potential.
 
-## What this starter includes
-- Architecture plan and clean-layered backend design.
-- PostgreSQL schema for retailers, stores, products, deals, price history, matches, alerts, and watchlists.
-- FastAPI backend starter with typed deal endpoint.
-- Retailer adapter interface + Walmart example adapter.
-- Configurable resale scoring engine with weighted opportunity score.
-- Next.js + TypeScript + Tailwind frontend starter.
-- **All Store Deals** dashboard page with retailer tabs, store picker, and sortable deals table.
+No SaaS billing, no pricing plans, no multi-tenant complexity — just a practical stack you can run and extend.
 
-## Folder Structure
+## What’s implemented now
+- FastAPI backend with a real `/api/v1/deals/all-store` endpoint.
+- Modular retailer adapter interface and a personal sample adapter set for all 4 retailers.
+- Next.js frontend that opens directly to **All Store Deals**.
+- ZIP/radius/store selector with local favorite-store saving.
+- Filtering by retailer + sorting by discount/profit/ROI/newest/stock.
+- Configurable opportunity scoring engine.
 
-```text
-.
-├── .env.example
-├── docs/
-│   ├── architecture.md
-│   └── database_schema.sql
-├── backend/
-│   ├── app/
-│   │   ├── adapters/
-│   │   │   ├── marketplaces/
-│   │   │   └── retailers/
-│   │   ├── api/v1/
-│   │   ├── core/
-│   │   ├── jobs/
-│   │   ├── models/
-│   │   ├── repositories/
-│   │   ├── schemas/
-│   │   ├── services/
-│   │   └── main.py
-│   ├── tests/
-│   └── requirements.txt
-├── frontend/
-│   ├── package.json
-│   ├── src/
-│   │   ├── app/
-│   │   ├── components/
-│   │   ├── lib/
-│   │   └── types/
-│   └── tailwind.config.ts
-└── index.html (legacy static file)
-```
+## Architecture + schema
+- Architecture plan: `docs/architecture.md`
+- SQL schema: `docs/database_schema.sql`
 
-## Backend Quick Start
-
+## Run backend
 ```bash
 cd backend
 python3 -m venv .venv
@@ -55,50 +25,19 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
 
-API health:
-
-```bash
-curl http://localhost:8000/health
-```
-
-Deals endpoint example:
-
-```bash
-curl -X POST http://localhost:8000/api/v1/deals/all-store \
-  -H 'Content-Type: application/json' \
-  -d '{"zip_code":"78701","radius_miles":25,"sort_by":"highest_roi"}'
-```
-
-## Frontend Quick Start
-
+## Run frontend
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Then open `http://localhost:3000`.
 
-## Opportunity Score Weights (configurable)
-- 30% net profit
-- 20% ROI
-- 15% marketplace match confidence
-- 10% stock availability
-- 10% demand / velocity
-- 10% competition risk
-- 5% category risk
+## Environment config
+Copy values from `.env.example`.
 
-## Compliance Notes
-- Use official/public APIs where available.
-- Keep browser automation isolated in adapters.
-- Respect robots/rate limits/access controls.
-- Never fabricate pricing/profitability outputs.
-- Include confidence metadata with every estimate.
-
-## Next implementation milestones
-1. Add adapters for Home Depot, Costco, and Target.
-2. Add real store locator and ZIP/radius geospatial query.
-3. Implement persistence repositories and migrations (Alembic/Prisma).
-4. Add auth (Clerk/NextAuth) and user settings.
-5. Add background scan jobs and alert fanout.
-6. Implement compare-stores and card/table toggle UX.
+## Notes
+- Current adapters are personal starter data so you can iterate quickly.
+- Replace sample adapters with official APIs (or compliant browser automation) when you are ready.
+- Keep usage lawful and respect rate limits/access rules.

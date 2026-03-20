@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 interface StorePickerProps {
   zipCode: string;
   radius: number;
@@ -18,8 +20,24 @@ const STORE_OPTIONS = [
 ];
 
 export function StorePicker(props: StorePickerProps) {
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('favorite_stores');
+    if (saved) setFavorites(JSON.parse(saved));
+  }, []);
+
+  const toggleFavorite = () => {
+    if (props.selectedStore === 'all') return;
+    const next = favorites.includes(props.selectedStore)
+      ? favorites.filter((store) => store !== props.selectedStore)
+      : [...favorites, props.selectedStore];
+    setFavorites(next);
+    localStorage.setItem('favorite_stores', JSON.stringify(next));
+  };
+
   return (
-    <section className="grid gap-3 rounded-xl bg-white p-4 shadow-sm md:grid-cols-4">
+    <section className="grid gap-3 rounded-xl bg-white p-4 shadow-sm md:grid-cols-5">
       <input
         className="rounded-md border p-2"
         placeholder="ZIP code"
@@ -44,6 +62,9 @@ export function StorePicker(props: StorePickerProps) {
           <option key={store.value} value={store.value}>{store.label}</option>
         ))}
       </select>
+      <button className="rounded-md border p-2" onClick={toggleFavorite}>
+        {favorites.includes(props.selectedStore) ? '★ Favorite' : '☆ Save Store'}
+      </button>
     </section>
   );
 }

@@ -26,10 +26,10 @@ class DealView(BaseModel):
 
 
 class DealQuery(BaseModel):
-    retailer_codes: list[str] = []
+    retailer_codes: list[str] = Field(default_factory=list)
     zip_code: str | None = None
     radius_miles: int = 25
-    store_ids: list[int] = []
+    store_ids: list[str] = Field(default_factory=list)
     min_profit: float | None = None
     min_roi: float | None = None
     clearance_only: bool = False
